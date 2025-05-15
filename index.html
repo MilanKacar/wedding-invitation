@@ -53,12 +53,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Mea+Culpa&amp;family=Rouge+Script&amp;display=swap"
-      rel="stylesheet"
-    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
     <style>
       :root {
         --primary-color: #295f48;
@@ -108,7 +105,7 @@
         z-index: 1;
       }
       .hero h1 {
-        font-family: 'Rouge Script', cursive;
+        font-family: 'Tangerine', cursive;
         font-size: 3.5em;
         color: var(--accent-color);
         margin-bottom: 0.2em;
@@ -160,7 +157,7 @@
         position: relative;
       }
       .section-title {
-        font-family: 'Rouge Script', cursive;
+        font-family: 'Tangerine', cursive;
         font-size: 2.5em;
         color: var(--primary-color);
         text-align: center;
@@ -350,7 +347,7 @@
         justify-content: center;
       }
       .rsvp-title {
-        font-family: 'Rouge Script', cursive;
+        font-family: 'Tangerine', cursive;
         font-size: 2.2em;
         color: var(--primary-color);
         margin-bottom: 0.5em;
@@ -716,7 +713,8 @@
       <div class="rsvp-title">Potvrdite svoj dolazak</div>
       <div class="divider"></div>
       <div class="rsvp-phones">
-        Potvrdite svoj dolazak:<br />
+        Molimo vas da potvrdite svoj dolazak do 1. avgusta.<br />
+        <br/>
         <i class="fa-solid fa-phone"></i> Milan:
         <a
           href="tel:+4367761437595"
@@ -829,18 +827,19 @@
 
   const guestName = getGuestName();
   if (guestName) {
-    // Find the "You're Invited" section and insert guest name below
+    // Find the "Pozivamo vas" section and insert guest name below
     const sections = document.querySelectorAll('.section-title');
     for (const section of sections) {
-      if (section.textContent.trim() === "You're Invited") {
+      if (section.textContent.trim() === "Pozivamo vas") {
         const nameDiv = document.createElement('div');
         nameDiv.textContent = guestName;
-        nameDiv.style.fontFamily = "'Rouge Script', cursive";
+        nameDiv.style.fontFamily = "'Tangerine', cursive";
         nameDiv.style.fontSize = '2em';
         nameDiv.style.color = 'var(--primary-color)';
         nameDiv.style.marginTop = '0.2em';
         nameDiv.style.marginBottom = '0.5em';
         nameDiv.style.textAlign = 'center';
+        nameDiv.style.fontSize = '3em';
         section.insertAdjacentElement('afterend', nameDiv);
         break;
       }
