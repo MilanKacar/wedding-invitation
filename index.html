@@ -1,0 +1,883 @@
+<!-- Load Dancing Script font with 500 weight -->
+<link
+  href="https://fonts.googleapis.com/css?family=Dancing+Script:500&amp;display=swap"
+  rel="stylesheet"
+/>
+<script>
+  // Only run the guest name logic on mobile devices
+  function isMobile() {
+    return /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
+  }
+
+  if (isMobile()) {
+    // Get guest name from URL (after ? or after ?name=)
+    function getGuestName() {
+      const query = window.location.search.substring(1);
+      if (!query) return '';
+      // Support both ?name=Guest and ?Guest Name
+      if (query.startsWith('name=')) {
+        return decodeURIComponent(query.replace(/^name=/, '').replace(/\+/g, ' '));
+      }
+      return decodeURIComponent(query.replace(/\+/g, ' '));
+    }
+</script>
+<style>
+  @media (max-width: 500px) {
+    .countdown {
+      flex-direction: column;
+      gap: 0px;
+      align-items: center;
+    }
+    .countdown-item {
+      min-width: 0;
+      width: 90vw;
+      max-width: 320px;
+      padding: 14px 0;
+      font-size: 1em;
+    }
+  }
+</style>
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Milan &amp; Anja | Wedding Invitation</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Great+Vibes|Montserrat:400,700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mea+Culpa&amp;family=Rouge+Script&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-color: #295f48;
+        --accent-color: #204c39;
+        --bg-color: #eeeeee;
+        --text-color: #18392b;
+        --secondary-color: #204c39;
+        --gradient1: linear-gradient(
+          135deg,
+          #eeeeee 0%,
+          #295f48 50%,
+          #204c39 100%
+        );
+        --gradient2: linear-gradient(120deg, #295f48 0%, #18392b 100%);
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        min-height: 100vh;
+        font-family: 'Montserrat', Arial, sans-serif;
+        color: var(--text-color);
+        overflow-x: hidden;
+      }
+      .hero {
+        text-align: center;
+        padding: 80px 20px 60px 20px;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero::before {
+        content: '';
+        position: absolute;
+        left: -100px;
+        top: -100px;
+        width: 300px;
+        height: 300px;
+        background: transparent;
+        z-index: 0;
+      }
+      .hero-content {
+        position: relative;
+        z-index: 1;
+      }
+      .hero h1 {
+        font-family: 'Rouge Script', cursive;
+        font-size: 3.5em;
+        color: var(--accent-color);
+        margin-bottom: 0.2em;
+        letter-spacing: 2px;
+        text-shadow: 0 2px 12px #eeeeeecc;
+      }
+      .hero h2 {
+        font-size: 1.5em;
+        font-weight: 400;
+        margin-bottom: 1.5em;
+        color: var(--primary-color);
+        letter-spacing: 1px;
+      }
+      .hero .date {
+        font-size: 1.2em;
+        color: var(--accent-color);
+        background: #eeeeee;
+        display: inline-block;
+        padding: 10px 30px;
+        border-radius: 30px;
+        box-shadow: 0 2px 12px #295f4822;
+        margin-bottom: 1.5em;
+        font-weight: 700;
+        letter-spacing: 2px;
+      }
+      .hero .scroll-down {
+        margin-top: 40px;
+        font-size: 2em;
+        color: var(--primary-color);
+        animation: bounce 2s infinite;
+      }
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(15px);
+        }
+      }
+      .section {
+        max-width: 900px;
+        margin: 60px auto;
+        padding: 40px 20px;
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(3px);
+        border-radius: 18px;
+        box-shadow: 0 8px 32px #295f4818;
+        position: relative;
+      }
+      .section-title {
+        font-family: 'Rouge Script', cursive;
+        font-size: 2.5em;
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 0.5em;
+        letter-spacing: 1px;
+      }
+      .divider {
+        width: 80px;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        margin: 0 auto 2em auto;
+        border-radius: 2px;
+      }
+      .countdown {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin: 40px 0;
+      }
+      .countdown-item {
+        text-align: center;
+        background: var(--primary-color);
+        color: var(--bg-color);
+        padding: 20px 30px;
+        border-radius: 12px;
+        min-width: 100px;
+        box-shadow: 0 2px 12px #295f4833;
+        font-size: 1.1em;
+      }
+      .countdown-number {
+        font-size: 2.2em;
+        font-weight: bold;
+        margin-bottom: 0.2em;
+        letter-spacing: 1px;
+      }
+      .timeline {
+        position: relative;
+        max-width: 900px;
+        margin: 80px auto 0 auto;
+        padding: 0 20px;
+      }
+      .timeline::after {
+        content: '';
+        position: absolute;
+        width: 3px;
+        background: var(--primary-color);
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -1.5px;
+        z-index: 0;
+      }
+      .timeline-item {
+        padding: 30px 40px;
+        position: relative;
+        width: 50%;
+        box-sizing: border-box;
+        z-index: 1;
+      }
+      .timeline-item:nth-child(odd) {
+        left: 0;
+        text-align: right;
+      }
+      .timeline-item:nth-child(even) {
+        left: 50%;
+        text-align: left;
+      }
+      .timeline-content {
+        padding: 24px 28px;
+        background: #eeeeee;
+        border-radius: 12px;
+        box-shadow: 0 5px 25px #295f4818;
+        position: relative;
+        display: inline-block;
+        min-width: 260px;
+        transition: transform 0.3s;
+      }
+      .timeline-content:hover {
+        transform: scale(1.04) translateY(-4px);
+        box-shadow: 0 12px 32px #295f4833;
+      }
+      .timeline-icon {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 48px;
+        height: 48px;
+        background: var(--primary-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #eeeeee;
+        font-size: 1.7em;
+        box-shadow: 0 2px 12px #295f4833;
+        z-index: 2;
+      }
+      .timeline-item:nth-child(odd) .timeline-icon {
+        right: -24px;
+      }
+      .timeline-item:nth-child(even) .timeline-icon {
+        left: -24px;
+      }
+      .timeline-content h3 {
+        margin: 0 0 0.3em 0;
+        color: var(--accent-color);
+        font-size: 1.3em;
+        font-weight: 700;
+        letter-spacing: 1px;
+      }
+      .timeline-content p {
+        margin: 0;
+        color: #18392b;
+        font-size: 1.05em;
+      }
+      .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px;
+        justify-content: center;
+        margin: 40px 0 0 0;
+      }
+      .photo-frame {
+        position: relative;
+        width: 220px;
+        height: 300px;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 18px #295f4822;
+        background: #eeeeee;
+        transition: transform 0.3s;
+      }
+      .photo-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: filter 0.3s;
+      }
+      .photo-frame:hover {
+        transform: scale(1.04) rotate(-1deg);
+        box-shadow: 0 8px 32px #295f4833;
+      }
+      .photo-frame::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          45deg,
+          rgba(41, 95, 72, 0.18) 0%,
+          rgba(238, 238, 238, 0) 100%
+        );
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .photo-frame:hover::after {
+        opacity: 1;
+      }
+      .footer {
+        text-align: center;
+        padding: 32px 10px 18px 10px;
+        color: #295f48;
+        font-size: 1.1em;
+        background: #eeeeee;
+        margin-top: 60px;
+        letter-spacing: 1px;
+      }
+      /* RSVP at the bottom, centered */
+      .rsvp-section {
+        text-align: center;
+        margin: 60px auto 0 auto;
+        max-width: 900px;
+        padding: 40px 20px;
+        background: #eeeeee;
+        border-radius: 18px;
+        box-shadow: 0 8px 32px #295f4818;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .rsvp-title {
+        font-family: 'Rouge Script', cursive;
+        font-size: 2.2em;
+        color: var(--primary-color);
+        margin-bottom: 0.5em;
+      }
+      .rsvp-phones {
+        font-size: 1.2em;
+        color: var(--accent-color);
+        margin-top: 1.5em;
+        background: #eeeeee;
+        display: inline-block;
+        padding: 18px 32px;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px #295f4822;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-align: center;
+      }
+      @media (max-width: 900px) {
+        .timeline,
+        .section {
+          max-width: 98vw;
+          padding: 20px 5vw;
+        }
+        .timeline-item {
+          padding: 20px 10px;
+          min-width: 220px;
+        }
+        .gallery {
+          gap: 10px;
+        }
+        .rsvp-section {
+          max-width: 98vw;
+          padding: 24px 4vw;
+        }
+      }
+      @media (max-width: 700px) {
+        .timeline::after {
+          left: 10px;
+        }
+        .timeline-item,
+        .timeline-item:nth-child(even),
+        .timeline-item:nth-child(odd) {
+          left: 0 !important;
+          width: 100%;
+          text-align: left;
+          padding-left: 40px;
+        }
+        .timeline-icon {
+          left: -24px !important;
+          right: auto !important;
+        }
+        .section {
+          padding: 24px 4vw;
+        }
+        .gallery {
+          flex-direction: column;
+          align-items: center;
+        }
+        .photo-frame {
+          width: 90vw;
+          max-width: 320px;
+          height: 220px;
+        }
+        .rsvp-section {
+          padding: 24px 4vw;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <video
+      autoplay=""
+      loop=""
+      muted=""
+      playsinline=""
+      poster=""
+      preload="auto"
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 105vw;
+        height: 120vh;
+        object-fit: cover;
+        opacity: 0.7;
+        filter: brightness(0.8) grayscale(0.1);
+        z-index: -2;
+        pointer-events: none;
+        height: 120vh;
+        overflow: hidden;
+      "
+    >
+      <source
+        src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4no1GWzSB1uiKN4epjo5TmlI558KO0v2mmHj4tgQ2uH9_GbCLwkqpNUQfU3uxqakiheapbQGvZPWdiJuvRqbNabEDCKJX3ZotlCjqcnt5DrmyChSb1fWkhsYPmdSm7D90he_FgFUPg=m18"
+        type="video/mp4"
+      />
+      Your browser does not support the video tag.
+    </video>
+    <div
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: linear-gradient(135deg, #eeeeee99 60%, #295f4899 100%);
+        pointer-events: none;
+        z-index: -1;
+        max-height: 100vh;
+        overflow: hidden;
+      "
+    ></div>
+    <div
+      class="hero"
+      data-aos="fade-down"
+      style="
+        position: relative;
+        overflow: hidden;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0 20px;
+        text-align: center;
+      "
+    >
+      <!-- Fullscreen background video (now as the hero background, not fixed to the whole page) -->
+      <!-- Unified gradient overlay -->
+      <div class="hero-content" style="position: relative; z-index: 2">
+        <h1>Milan &amp; Anja</h1>
+        <h2>are getting married!</h2>
+        <div
+          class="date"
+          style="
+            font-size: 1.2em;
+            color: var(--accent-color);
+            background: #ffffffcc;
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 22px;
+            border-radius: 28px;
+            box-shadow: 0 2px 12px #295f4822;
+            font-weight: 700;
+            letter-spacing: 1px;
+          "
+        >
+          <i
+            class="fa-solid fa-calendar-heart"
+            style="margin-right: 10px; font-size: 1.2em"
+          ></i
+          >13th September 2025
+        </div>
+        <div style="text-align: center; margin-top: 20px">
+          <a
+            href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Milan+%26+Anja+Wedding&amp;dates=20250913T120000Z/20250913T220000Z&amp;details=Join+us+in+Banja+Luka+for+the+wedding+celebration!&amp;location=Stara+Ada+Ostrvo,+Banja+Luka,+Bosnia+and+Herzegovina"
+            style="
+              margin-left: 0px;
+              background: var(--primary-color);
+              color: white;
+              padding: 8px 16px;
+              border-radius: 24px;
+              font-size: 0.9em;
+              font-weight: 600;
+              text-decoration: none;
+              display: inline-block;
+              box-shadow: 0 2px 8px #295f4822;
+            "
+            target="_blank"
+            ><i class="fa-solid fa-calendar-plus" style="margin-right: 6px"></i
+            >Save</a
+          >
+        </div>
+        <div
+          class="scroll-down"
+          style="
+            text-shadow: 0 2px 8px #204c3988;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 40px;
+            width: 100%;
+          "
+        >
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+      </div>
+    </div>
+    <div class="section" data-aos="fade-up">
+      <div
+        class="section-title"
+        style="font-size: 2em; line-height: 1.1; text-align: center"
+      >
+        You're Invited
+      </div>
+      <div class="divider"></div>
+      <p
+        style="
+          text-align: center;
+          font-size: 1.2em;
+          max-width: 600px;
+          margin: 0 auto;
+        "
+      >
+        Slavićemo ljubav i voljeli bismo da budete dio nje!
+      </p>
+      <div class="countdown" data-aos="zoom-in">
+        <div class="countdown-item">
+          <div class="countdown-number" id="days">00</div>
+          <div>Days</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" id="hours">00</div>
+          <div>Hours</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" id="minutes">00</div>
+          <div>Minutes</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" id="seconds">00</div>
+          <div>Seconds</div>
+        </div>
+      </div>
+    </div>
+    <div class="section" data-aos="fade-up">
+      <div class="section-title">Our Story</div>
+      <div class="divider"></div>
+      <div class="gallery">
+        <div class="photo-frame" data-aos="zoom-in">
+          <img
+            alt="Couple 1"
+            src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&amp;fit=crop&amp;w=400&amp;q=80"
+          />
+        </div>
+        <div class="photo-frame" data-aos="zoom-in" data-aos-delay="100">
+          <img
+            alt="Couple 2"
+            src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&amp;fit=crop&amp;w=400&amp;q=80"
+          />
+        </div>
+        <div class="photo-frame" data-aos="zoom-in" data-aos-delay="200">
+          <img
+            alt="Couple 3"
+            src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&amp;fit=crop&amp;w=400&amp;q=80"
+          />
+        </div>
+      </div>
+      <p style="text-align: center; margin-top: 2em; color: #2d3142">
+        From our first hello to our forever, thank you for being part of our
+        journey.
+      </p>
+    </div>
+    <div class="section" data-aos="fade-up">
+      <div class="section-title">Wedding Day Timeline</div>
+      <div class="divider"></div>
+      <div class="timeline">
+        <div class="timeline-item" data-aos="fade-right">
+          <div class="timeline-content">
+            <div class="timeline-icon"><i class="fas fa-glass-cheers"></i></div>
+            <h3>Welcome Drinks</h3>
+            <p>13:00 - Gather &amp; mingle with refreshments</p>
+          </div>
+        </div>
+        <div class="timeline-item" data-aos="fade-left">
+          <div class="timeline-content">
+            <div class="timeline-icon"><i class="fas fa-ring"></i></div>
+            <h3>Ceremony</h3>
+            <p>14:00 - The vows &amp; "I do"</p>
+          </div>
+        </div>
+        <div class="timeline-item" data-aos="fade-right">
+          <div class="timeline-content">
+            <div class="timeline-icon"><i class="fas fa-camera"></i></div>
+            <h3>Photos</h3>
+            <p>15:00 - Capture the memories</p>
+          </div>
+        </div>
+        <div class="timeline-item" data-aos="fade-left">
+          <div class="timeline-content">
+            <div class="timeline-icon"><i class="fas fa-utensils"></i></div>
+            <h3>Dinner</h3>
+            <p>17:00 - Feast &amp; toast</p>
+          </div>
+        </div>
+        <div class="timeline-item" data-aos="fade-right">
+          <div class="timeline-content">
+            <div class="timeline-icon"><i class="fas fa-music"></i></div>
+            <h3>Party &amp; Dancing</h3>
+            <p>19:00 - Let the celebration begin!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Wedding Location Section: Ultra Modern with Google Maps -->
+    <div
+      class="section"
+      data-aos="fade-up"
+      style="
+        background: #f8fafc;
+        border-radius: 22px;
+        box-shadow: 0 8px 32px #295f4812;
+      "
+    >
+      <div
+        class="section-title"
+        style="font-size: 2.2em; letter-spacing: 1.5px"
+      >
+        Wedding Location
+        <span
+          style="
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 0.3em;
+            color: #204c39;
+          "
+        >
+          <i class="fa-solid fa-location-dot"></i>
+        </span>
+      </div>
+      <div class="divider"></div>
+      <div style="text-align: center; margin-bottom: 1.2em">
+        <span
+          style="
+            font-size: 1.25em;
+            font-weight: 600;
+            color: var(--primary-color);
+          "
+        >
+          <i class="fa-solid fa-map-pin" style="color: #204c39"></i>
+          <span style="font-family: 'Montserrat', sans-serif"
+            >Stara Ada Ostrvo</span
+          >
+        </span>
+        <br />
+        <span style="font-size: 1.1em; color: var(--accent-color)">
+          Banja Luka, Bosnia and Herzegovina
+        </span>
+        <br />
+        <a
+          href="https://goo.gl/maps/6w2t6w6v6w6w6w6w7"
+          rel="noopener"
+          style="
+            display: inline-block;
+            margin-top: 0.7em;
+            background: var(--primary-color);
+            color: #fff;
+            padding: 10px 28px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: 500;
+            text-decoration: none;
+            box-shadow: 0 2px 12px #295f4822;
+            transition: background 0.2s;
+          "
+          target="_blank"
+        >
+          <i class="fa-solid fa-map-location-dot"></i> View on Google Maps
+        </a>
+      </div>
+      <div
+        style="
+          border-radius: 16px;
+          overflow: hidden;
+          box-shadow: 0 4px 18px #295f4822;
+          max-width: 600px;
+          margin: 0 auto;
+        "
+      >
+        <iframe
+          allowfullscreen=""
+          height="320"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=44.7706174,17.2188071&amp;z=18&amp;output=embed&amp;maptype=satellite"
+          style="border: 0; min-width: 220px"
+          title="Wedding Location Map"
+          width="100%"
+        ></iframe>
+      </div>
+      <div
+        style="
+          text-align: center;
+          margin-top: 1.2em;
+          color: #18392b;
+          font-size: 1.05em;
+        "
+      >
+        <i class="fa-solid fa-clock"></i>
+        <span style="font-weight: 600">Ceremony starts at 14:00</span>
+        <br />
+        <i class="fa-solid fa-parking"></i>
+        <span>Free parking available</span>
+      </div>
+    </div>
+    <!-- RSVP moved here to the middle of the page -->
+    <div class="section rsvp-section" data-aos="fade-up">
+      <div class="rsvp-title">Kindly RSVP</div>
+      <div class="divider"></div>
+      <div class="rsvp-phones">
+        Please confirm your attendance by phone:<br />
+        <i class="fa-solid fa-phone"></i> Milan:
+        <a
+          href="tel:+1234567890"
+          style="color: inherit; text-decoration: underline"
+          >+123 456 7890</a
+        ><br />
+        <i class="fa-solid fa-phone"></i> Anja:
+        <a
+          href="tel:+0987654321"
+          style="color: inherit; text-decoration: underline"
+          >+098 765 4321</a
+        >
+      </div>
+    </div>
+    <div class="footer">
+      With love, Milan &amp; Anja — 13<sup>th</sup> September 2025
+    </div>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({ duration: 1000, once: true });
+
+      // Countdown Timer
+      const weddingDate = new Date('2025-09-13T14:00:00').getTime();
+      function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = weddingDate - now;
+        if (distance < 0) {
+          document.getElementById('days').innerHTML = '00';
+          document.getElementById('hours').innerHTML = '00';
+          document.getElementById('minutes').innerHTML = '00';
+          document.getElementById('seconds').innerHTML = '00';
+          return;
+        }
+        document.getElementById('days').innerHTML = String(
+          Math.floor(distance / (1000 * 60 * 60 * 24))
+        ).padStart(2, '0');
+        document.getElementById('hours').innerHTML = String(
+          Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+        ).padStart(2, '0');
+        document.getElementById('minutes').innerHTML = String(
+          Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+        ).padStart(2, '0');
+        document.getElementById('seconds').innerHTML = String(
+          Math.floor((distance % (1000 * 60)) / 1000)
+        ).padStart(2, '0');
+      }
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    </script>
+  </body>
+</html>
+<script>
+  // Get guest name from URL (after ? or after ?name=)
+  function getGuestName() {
+    const query = window.location.search.substring(1);
+    if (!query) return '';
+    // Support both ?name=Guest and ?Guest Name
+    if (query.startsWith('name=')) {
+      return decodeURIComponent(query.replace(/^name=/, '').replace(/\+/g, ' '));
+    }
+    return decodeURIComponent(query.replace(/\+/g, ' '));
+  }
+
+    const guestName = getGuestName();
+    if (guestName) {
+      // Find the "You're Invited" section and insert guest name and location below
+      const sections = document.querySelectorAll('.section-title');
+      for (const section of sections) {
+        if (section.textContent.trim() === "You're Invited") {
+          // Guest name
+          const nameDiv = document.createElement('div');
+          nameDiv.textContent = guestName;
+          nameDiv.style.fontFamily = "'Dancing Script', cursive";
+          nameDiv.style.fontWeight = "500";
+          nameDiv.style.fontSize = "2em";
+          nameDiv.style.color = "var(--primary-color)";
+          nameDiv.style.marginTop = "0.2em";
+          nameDiv.style.marginBottom = "0.2em";
+          nameDiv.style.textAlign = "center";
+          // Location
+          const locationDiv = document.createElement('div');
+          locationDiv.textContent = "Location: Please";
+          locationDiv.style.fontFamily = "'Montserrat', Arial, sans-serif";
+          locationDiv.style.fontWeight = "500";
+          locationDiv.style.fontSize = "1.1em";
+          locationDiv.style.color = "var(--accent-color)";
+          locationDiv.style.marginBottom = "0.5em";
+          locationDiv.style.textAlign = "center";
+          section.insertAdjacentElement('afterend', locationDiv);
+          section.insertAdjacentElement('afterend', nameDiv);
+          break;
+        }
+      }
+    }
+  }
+</script>
+<script>
+  // Get guest name from URL (after ? or after ?name=)
+  function getGuestName() {
+    const query = window.location.search.substring(1);
+    if (!query) return '';
+    // Support both ?name=Guest and ?Guest Name
+    if (query.startsWith('name=')) {
+      return decodeURIComponent(
+        query.replace(/^name=/, '').replace(/\+/g, ' ')
+      );
+    }
+    return decodeURIComponent(query.replace(/\+/g, ' '));
+  }
+
+  const guestName = getGuestName();
+  if (guestName) {
+    // Find the "You're Invited" section and insert guest name below
+    const sections = document.querySelectorAll('.section-title');
+    for (const section of sections) {
+      if (section.textContent.trim() === "You're Invited") {
+        const nameDiv = document.createElement('div');
+        nameDiv.textContent = guestName;
+        nameDiv.style.fontFamily = "'Rouge Script', cursive";
+        nameDiv.style.fontSize = '2em';
+        nameDiv.style.color = 'var(--primary-color)';
+        nameDiv.style.marginTop = '0.2em';
+        nameDiv.style.marginBottom = '0.5em';
+        nameDiv.style.textAlign = 'center';
+        section.insertAdjacentElement('afterend', nameDiv);
+        break;
+      }
+    }
+  }
+</script>
