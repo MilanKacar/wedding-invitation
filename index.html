@@ -49,13 +49,19 @@
       href="https://fonts.googleapis.com/css?family=Great+Vibes|Montserrat:400,700&amp;display=swap"
       rel="stylesheet"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
       :root {
         --primary-color: #295f48;
@@ -76,11 +82,10 @@
         height: 100%;
         margin: 0;
         padding: 0;
-       
       }
       body {
         min-height: 100vh;
-        font-family: 'Roboto';
+        font-family: 'Roboto', sans-serif;
         color: var(--text-color);
         overflow-x: hidden;
       }
@@ -158,7 +163,7 @@
       }
       .section-title {
         font-family: 'Tangerine', cursive;
-        font-size: 2.5em;
+        font-size: 3em;
         color: var(--primary-color);
         text-align: center;
         margin-bottom: 0.5em;
@@ -187,9 +192,10 @@
         color: var(--bg-color);
         padding: 20px 30px;
         border-radius: 12px;
+        max-width: 200px;
         min-width: 100px;
         box-shadow: 0 2px 12px #295f4833;
-        font-size: 1.1em;
+        font-size: 1.3em;
       }
       .countdown-number {
         font-size: 2.2em;
@@ -200,7 +206,7 @@
       .timeline {
         position: relative;
         max-width: 900px;
-        margin: 80px auto 0 auto;
+        margin: 20px auto 0 auto;
         padding: 0 20px;
       }
       .timeline::after {
@@ -215,28 +221,28 @@
         z-index: 0;
       }
       .timeline-item {
-        padding: 30px 40px;
+        padding: 20px 20px;
         position: relative;
-        width: 50%;
+        width: 20%;
         box-sizing: border-box;
         z-index: 1;
       }
       .timeline-item:nth-child(odd) {
-        left: 0;
+        left: 2%;
         text-align: right;
       }
       .timeline-item:nth-child(even) {
-        left: 50%;
+        left: 15%;
         text-align: left;
       }
       .timeline-content {
         padding: 24px 28px;
         background: #eeeeee;
         border-radius: 12px;
-        box-shadow: 0 5px 25px #295f4818;
+        box-shadow: 0px 0px 12px #295f4818;
         position: relative;
         display: inline-block;
-        min-width: 260px;
+        min-width: 200px;
         transition: transform 0.3s;
       }
       .timeline-content:hover {
@@ -260,13 +266,13 @@
         z-index: 2;
       }
       .timeline-item:nth-child(odd) .timeline-icon {
-        right: -24px;
+        right: -4px;
       }
       .timeline-item:nth-child(even) .timeline-icon {
-        left: -24px;
+        left: -4px;
       }
       .timeline-content h3 {
-        margin: 0 0 0.3em 0;
+        margin: 0 0 0 0;
         color: var(--accent-color);
         font-size: 1.3em;
         font-weight: 700;
@@ -325,9 +331,9 @@
       }
       .footer {
         text-align: center;
-        padding: 32px 10px 18px 10px;
+        padding: 18px 10px 18px 10px;
         color: #295f48;
-        font-size: 1.1em;
+        font-size: 0.8em;
         background: #eeeeee;
         margin-top: 60px;
         letter-spacing: 1px;
@@ -347,13 +353,13 @@
         justify-content: center;
       }
       .rsvp-title {
-        font-family: 'Tangerine', cursive;
-        font-size: 2.2em;
+        font-family: 'Tangerine', sans-serif;
+        font-size: 2.5em;
         color: var(--primary-color);
         margin-bottom: 0.5em;
       }
       .rsvp-phones {
-        font-size: 1.2em;
+        font-size: 1em;
         color: var(--accent-color);
         margin-top: 1.5em;
         background: #eeeeee;
@@ -365,15 +371,15 @@
         letter-spacing: 1px;
         text-align: center;
       }
-      @media (max-width: 900px) {
+      @media (max-width: 400px) {
         .timeline,
         .section {
           max-width: 98vw;
-          padding: 20px 5vw;
+          padding: 0px 5vw;
         }
         .timeline-item {
           padding: 20px 10px;
-          min-width: 220px;
+          min-width: 200px;
         }
         .gallery {
           gap: 10px;
@@ -383,17 +389,13 @@
           padding: 24px 4vw;
         }
       }
-      @media (max-width: 700px) {
+      @media (max-width: 600px) {
         .timeline::after {
           left: 10px;
         }
-        .timeline-item,
-        .timeline-item:nth-child(even),
-        .timeline-item:nth-child(odd) {
-          left: 0 !important;
-          width: 100%;
-          text-align: left;
-          padding-left: 40px;
+        .timeline-item {
+          width: 50%;
+          padding-left: 10px;
         }
         .timeline-icon {
           left: -24px !important;
@@ -415,6 +417,30 @@
           padding: 24px 4vw;
         }
       }
+
+      @keyframes pulseLove {
+      0% {
+        transform: scale(1);
+        color: var(--text-color);
+        text-shadow: none;
+      }
+      50% {
+        transform: scale(1.1) rotate(-2deg);
+        color:var(--text-color);
+        text-shadow: 1px 1px 8px rgba(2, 2, 2, 0.6);
+      }
+      100% {
+        transform: scale(1);
+        color:var(--text-color);
+        text-shadow: none;
+      }
+    }
+
+    .love-word {
+      display: inline-block;
+      animation: pulseLove 2s ease-in-out infinite;
+    }
+    
     </style>
   </head>
   <body>
@@ -471,7 +497,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        padding: 0 20px;
+        padding: 0 10px;
         text-align: center;
       "
     >
@@ -539,7 +565,7 @@
     <div class="section" data-aos="fade-up">
       <div
         class="section-title"
-        style="font-size: 2em; line-height: 1.1; text-align: center"
+        style="font-size: 2.5em; line-height: 1.1; text-align: center"
       >
         Pozivamo vas
       </div>
@@ -550,10 +576,14 @@
           font-size: 1.2em;
           max-width: 600px;
           margin: 0 auto;
+          font-family: Roboto, sans-serif;
         "
-      > 
-        Slavićemo ljubav i voljeli bismo da budete dio nje!
+      >
+        Slavićemo <span class="love-word">ljubav</span>
+        <br />
+        i voljeli bismo da budete dio nje!
       </p>
+    <div>
       <div class="countdown" data-aos="zoom-in">
         <div class="countdown-item">
           <div class="countdown-number" id="days">00</div>
@@ -573,10 +603,10 @@
         </div>
       </div>
     </div>
-
     </div>
-    <div class="section" data-aos="fade-up">
-      <div class="section-title">Wedding Day Timeline</div>
+    <div>
+    <div class="section" style="overflow: hidden; margin: 1;" data-aos="fade-down">
+      <div class="section-title" style="font-size: 2.5em; line-height: 1.1; text-align: center">Raspored</div>
       <div class="divider"></div>
       <div class="timeline">
 
@@ -587,28 +617,28 @@
             <p>15:00 - Crkva Sv. Trojice</p>
           </div>
         </div>
-        <div class="timeline-item" data-aos="fade-right">
-          <div class="timeline-content">
-            <div class="timeline-icon"><i class="fas fa-glass-cheers"></i></div>
+        <div class="timeline-item"  data-aos="fade-left">
+          <div class="timeline-content" >
+            <div class="timeline-icon"  style="margin-left: -0.5em" ><i class="fas fa-glass-cheers"></i></div>
             <h3>Welcome Drinks</h3>
             <p>16:00 - Skup svatova &amp; vaše prvo piće</p>
           </div>
         </div>
-        <div class="timeline-item" data-aos="fade-left">
+        <div class="timeline-item" data-aos="fade-right">
           <div class="timeline-content">
             <div class="timeline-icon"><i class="fas fa-utensils"></i></div>
             <h3>Večera</h3>
-            <p>18:30 - Feast &amp; toast</p>
+            <p>18:30 - Obavezno dođite gladni.</p>
           </div>
         </div>
-        <div class="timeline-item" data-aos="fade-right">
+        <div class="timeline-item" data-aos="fade-left">
           <div class="timeline-content">
-            <div class="timeline-icon"><i class="fas fa-music"></i></div>
+            <div class="timeline-icon" style="margin-left: -0.5em"><i class="fas fa-music"></i></div>
             <h3>Party &amp; Dancing</h3>
-            <p>20:00 - Žurkaaaaaa!</p>
+            <p>19:00 - Zamjerimo ljudima koji sjednu!</p>
           </div>
         </div>
-      </div>
+      </div>  
     </div>
     <!-- Wedding Location Section: Ultra Modern with Google Maps -->
     <div
@@ -622,7 +652,7 @@
     >
       <div
         class="section-title"
-        style="font-size: 2.2em; letter-spacing: 1.5px"
+        style="font-size: 2.5em; line-height: 1.1; text-align: center"
       >
         Lokacija
         <span
@@ -646,12 +676,12 @@
           "
         >
           <i class="fa-solid fa-map-pin" style="color: #204c39"></i>
-          <span style="font-family: 'Montserrat', sans-serif"
+          <span style="font-family: 'Roboto', sans-serif"
             >Stara Ada Ostrvo</span
           >
         </span>
         <br />
-        <span style="font-size: 1.1em; color: var(--accent-color)">
+        <span style="font-size: 1.3em; color: var(--accent-color)">
           Banja Luka, Bosnia i Hercegovina
         </span>
         <br />
@@ -665,7 +695,7 @@
             color: #fff;
             padding: 10px 28px;
             border-radius: 30px;
-            font-size: 1.1em;
+            font-size: 1.3em;
             font-weight: 500;
             text-decoration: none;
             box-shadow: 0 2px 12px #295f4822;
@@ -691,7 +721,7 @@
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
           src="https://www.google.com/maps?q=44.7706174,17.2188071&amp;z=18&amp;output=embed&amp;maptype=satellite"
-          style="border: 0; min-width: 220px"
+          style="border: 0; min-width: 200px"
           title="Wedding Location Map"
           width="100%"
         ></iframe>
@@ -710,11 +740,11 @@
     </div>
     <!-- RSVP moved here to the middle of the page -->
     <div class="section rsvp-section" data-aos="fade-up">
-      <div class="rsvp-title">Potvrdite svoj dolazak</div>
+      <div class="rsvp-title" style="font-size: 2.5em; line-height: 1.1; text-align: center">Potvrdite svoj dolazak</div>
       <div class="divider"></div>
       <div class="rsvp-phones">
         Molimo vas da potvrdite svoj dolazak do 1. avgusta.<br />
-        <br/>
+        <br />
         <i class="fa-solid fa-phone"></i> Milan:
         <a
           href="tel:+4367761437595"
@@ -729,9 +759,7 @@
         >
       </div>
     </div>
-    <div class="footer">
-    Anja &amp; Milan — 13<sup>th</sup> Septembar 2025
-    </div>
+    <div class="footer">Anja &amp; Milan — 13 Septembar 2025</div>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
       AOS.init({ duration: 1000, once: true });
@@ -799,7 +827,7 @@
           locationDiv.textContent = "Location: Please";
           locationDiv.style.fontFamily = "'Montserrat', Arial, sans-serif";
           locationDiv.style.fontWeight = "500";
-          locationDiv.style.fontSize = "1.1em";
+          locationDiv.style.fontSize = "1.3em";
           locationDiv.style.color = "var(--accent-color)";
           locationDiv.style.marginBottom = "0.5em";
           locationDiv.style.textAlign = "center";
@@ -830,7 +858,7 @@
     // Find the "Pozivamo vas" section and insert guest name below
     const sections = document.querySelectorAll('.section-title');
     for (const section of sections) {
-      if (section.textContent.trim() === "Pozivamo vas") {
+      if (section.textContent.trim() === 'Pozivamo vas') {
         const nameDiv = document.createElement('div');
         nameDiv.textContent = guestName;
         nameDiv.style.fontFamily = "'Tangerine', cursive";
