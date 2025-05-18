@@ -16,6 +16,10 @@
       }
       return decodeURIComponent(query.replace(/\+/g, ' '));
     }
+
+    function switchToEnglish() {
+        document.documentElement.lang = "en";
+    }
 </script>
 <style>
   @media (max-width: 500px) {
@@ -35,7 +39,7 @@
 </style>
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="sr">
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -516,10 +520,84 @@
       display: inline-block;
       animation: pulseLove 2s ease-in-out infinite;
     }
+    .lang-display {
+      position: fixed;
+      
+      top: 20px;
+      right: 10px;
+      z-index: 9999;
+      background: transparent;
+      border: none;
+      color: var(--primary-color);
+      padding: 8px 20px;
+      font-weight: bold;
+      font-size: 1.1em;
+      cursor: pointer;
+    }
+    .lang-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9998;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .lang-popup.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .lang-options {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 50px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+    .lang-option {
+      font-size: 1.2em;
+      font-weight: bold;
+      background: transparent;
+      color: var(--primary-color);
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .lang-option:hover {
+      background: #18392b;
+      transform: scale(1.05);
+    }
+    .fade-translate {
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-translate.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
     
     </style>
   </head>
   <body>
+  <div class="lang-display" onclick="openLanguagePopup()" id="langCurrent">SR</div>
+
+  <div class="lang-popup" id="langPopup" onclick="closeLanguagePopup(event)">
+    <div class="lang-options" onclick="event.stopPropagation()">
+      <button class="lang-option" onclick="chooseLanguage('sr')">SR</button>
+      <button class="lang-option" onclick="chooseLanguage('en')">EN</button>
+    </div>
+  </div>
     <video
       autoplay=""
       loop=""
@@ -601,7 +679,7 @@
             class="fa-solid fa-calendar-heart"
             style="margin-right: 10px; font-size: 1.2em"
           ></i
-          >13. Septembar 2025
+          ><span data-i18n="date">13. Septembar 2025 </span>
         </div>
         <div style="text-align: center; margin-top: 20px">
           <a
@@ -618,9 +696,10 @@
               display: inline-block;
               box-shadow: 0 2px 8px #295f4822;
             "
+            
           >
             <i class="fa-solid fa-calendar-plus" style="margin-right: 6px"></i>
-            Sačuvaj u kalendar
+            <span data-i18n="saveToCalendar">Sačuvaj u kalendar</span>
           </a>
         </div>
         <div
@@ -642,6 +721,7 @@
       <div
         class="section-title"
         style="font-size: 2.5em; line-height: 1.1; text-align: center"
+        data-i18n="invited"
       >
         Pozivamo vas
       </div>
@@ -655,68 +735,67 @@
           font-family: Roboto, sans-serif;
         "
       >
-        Slavićemo <span class="love-word">ljubav</span>
+        <span data-i18n="loveLine"> Slavićemo</span> <span class="love-word" data-i18n="love">ljubav</span>
         <br />
-        i voljeli bismo da budete dio nje!
+        <span data-i18n="joinUs">i voljeli bismo da budete dio nje!</span>
       </p>
     <div>
       <div class="countdown" data-aos="zoom-in">
         <div class="countdown-item">
           <div class="countdown-number" id="days">00</div>
-          <div>Dana</div>
+          <div data-i18n="days">Dana</div>
         </div>
         <div class="countdown-item">
           <div class="countdown-number" id="hours">00</div>
-          <div>Sati</div>
+          <div data-i18n="hours">Sati</div>
         </div>
         <div class="countdown-item">
           <div class="countdown-number" id="minutes">00</div>
-          <div>Minuta</div>
+          <div data-i18n="minutes">Minuta</div>
         </div>
         <div class="countdown-item">
           <div class="countdown-number" id="seconds">00</div>
-          <div>Sekundi</div>
+          <div data-i18n="seconds">Sekundi</div>
         </div>
       </div>
     </div>
     </div>
     <div>
     <div class="section" style="overflow: hidden; margin: 60px auto; padding: 40px 20px;" data-aos="fade-down">
-      <div class="section-title" style="font-size: 2.5em; line-height: 1.1; text-align: center">Raspored</div>
+      <div class="section-title" style="font-size: 2.5em; line-height: 1.1; text-align: center" data-i18n="schedule">Raspored</div>
       <div class="divider"></div>
       <div class="timeline">
 
         <div class="timeline-item" data-aos="fade-right">
           <div class="timeline-content">
             <div class="timeline-icon"><i class="fas fa-church"></i></div>
-            <h3>Crkveno Vjenčanje</h3>
-            <p>15:00 - Crkva Sv. Trojice</p>
+            <h3 data-i18n="ceremony">Crkveno Vjenčanje</h3>
+            <p data-i18n="church_location">15:00 - Crkva Sv. Trojice</p>
           </div>
         </div>
         <div class="timeline-item"  data-aos="fade-left">
           <div class="timeline-content" >
             <div class="timeline-icon"  ><i class="fas fa-glass-cheers"></i></div>
-            <h3>Welcome Drinks</h3>
-            <p>16:00 - Skup svatova &amp; vaše prvo piće</p>
+            <h3 >Welcome Drinks</h3>
+            <p data-i18n="drinks">16:00 - Skup svatova &amp; vaše prvo piće</p>
           </div>
         </div>
         <div class="timeline-item" data-aos="fade-right">
           <div class="timeline-content">
             <div class="timeline-icon"><i class="fas fa-utensils"></i></div>
-            <h3>Večera</h3>
-            <p>Obavezno dođite gladni.</p>
+            <h3 data-i18n="dinner">Večera</h3>
+            <p data-i18n="hungry">Obavezno dođite gladni.</p>
           </div>
         </div>
         <div class="timeline-item" data-aos="fade-left">
           <div class="timeline-content">
             <div class="timeline-icon" ><i class="fas fa-music"></i></div>
             <h3>Party &amp; Dancing</h3>
-            <p>Zamjerimo ljudima koji sjede!</p>
+            <p data-i18n="dancing">Zamjerimo ljudima koji sjede!</p>
           </div>
         </div>
       </div>  
     </div>
-    <!-- Wedding Location Section: Ultra Modern with Google Maps -->
     <div
       class="section"
       data-aos="fade-up"
@@ -729,6 +808,7 @@
       <div
         class="section-title"
         style="font-size: 2.5em; line-height: 1.1; text-align: center"
+        data-i18n="location"
       >
         Lokacija
         <span
@@ -757,7 +837,7 @@
           >
         </span>
         <br />
-        <span style="font-size: 1.3em; color: var(--accent-color)">
+        <span style="font-size: 1.3em; color: var(--accent-color)" data-i18n="exact_location">
           Banja Luka, Bosnia i Hercegovina
         </span>
         <br />
@@ -811,15 +891,16 @@
         "
       >
         <i class="fa-solid fa-parking"></i>
-        <span>Slobodan parking je dostupan</span>
+        <span data-i18n="parking">Slobodan parking je dostupan</span>
       </div>
     </div>
     <!-- RSVP moved here to the middle of the page -->
     <div class="section rsvp-section" data-aos="fade-up">
-      <div class="rsvp-title" style="font-size: 2.5em; line-height: 1.1; text-align: center">Potvrdite svoj dolazak</div>
+      <div class="rsvp-title" style="font-size: 2.5em; line-height: 1.1; text-align: center" data-i18n="rsvp">Potvrdite svoj dolazak</div>
       <div class="divider"></div>
       <div class="rsvp-phones">
-        Molimo vas da potvrdite svoj dolazak do 1. avgusta.<br />
+        <p data-i18n="confirmBy"> Molimo vas da potvrdite svoj dolazak do 1. avgusta.</p>
+       <br />
         <br />
         <i class="fa-solid fa-phone"></i> Milan:
         <a
@@ -968,6 +1049,89 @@ setTimeout(() => {
     return decodeURIComponent(query.replace(/\+/g, ' '));
   }
 
+      const translations = {
+      en: {
+        invited: "You're invited",
+        loveLine: "We’ll celebrate",
+        love: "love",
+        joinUs: "and we would love you to be part of it!",
+        days: "Days",
+        hours: "Hours",
+        minutes: "Minutes",
+        seconds: "Seconds",
+        church_location: "3pm Church of Holy Trinity",
+        schedule: "Schedule",
+        ceremony: "Church Ceremony",
+        drinks: "4pm Guest gathering & your first drink",
+        dinner: "Dinner",
+        hungry: "Be sure to come hungry.",
+        dancing: "Don't think about sitting!",
+        location: "Location",
+        exact_location: "Banja Luka, Bosnia and Herzegovina",
+        parking: "Free parking available",
+        rsvp: "Confirm your attendance",
+        confirmBy: "Please confirm your attendance by August 1st.",
+        saveToCalendar: "Save to calendar",
+        date: "September 13th, 2025"
+      },
+      sr: {
+        invited: "Pozivamo vas",
+        loveLine: "Slavićemo",
+        love: "ljubav",
+        joinUs: "i voljeli bismo da budete dio nje!",
+        days: "Dana",
+        hours: "Sati",
+        minutes: "Minuta",
+        seconds: "Sekundi",
+        church_location: "15:00 Crkva Sv. Trojice",
+        schedule: "Raspored",
+        ceremony: "Crkveno Vjenčanje",
+        drinks: "Skup svatova & vaše prvo piće",
+        dinner: "Večera",
+        hungry: "Obavezno dođite gladni.",
+        dancing: "Zamjerimo ljudima koji sjede!",
+        location: "Lokacija",
+        exact_location: "Banja Luka, Bosnia i Hercegovina",
+        parking: "Slobodan parking je dostupan",
+        rsvp: "Potvrdite svoj dolazak",
+        confirmBy: "Molimo vas da potvrdite svoj dolazak do 1. avgusta.",
+        saveToCalendar: "Sačuvaj u kalendar",
+        date: "13. Septembar 2025"
+      }
+    };
+
+    function switchLanguage(lang) {
+      document.documentElement.lang = lang;
+      const elements = document.querySelectorAll("[data-i18n]");
+      elements.forEach(el => {
+        el.classList.remove('show');
+        const key = el.getAttribute("data-i18n");
+        setTimeout(() => {
+          el.textContent = translations[lang][key] || el.textContent;
+          el.classList.add('show');
+        }, 200);
+      });
+    }
+
+        function switchLanguage(lang) {
+      document.documentElement.lang = lang;
+      const elements = document.querySelectorAll("[data-i18n]");
+      elements.forEach(el => {
+        el.classList.remove('show');
+        const key = el.getAttribute("data-i18n");
+        setTimeout(() => {
+          el.textContent = translations[lang][key] || el.textContent;
+          el.classList.add('show');
+        }, 200);
+      });
+    }
+
+    window.addEventListener("load", () => {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        el.classList.add('fade-translate', 'show');
+      });
+    });
+
     const guestName = getGuestName();
     if (guestName) {
       // Find the "You're Invited" section and insert guest name and location below
@@ -999,23 +1163,42 @@ setTimeout(() => {
         }
       }
     }
-  }
-</script>
-<script>
-  // Get guest name from URL (after ? or after ?name=)
-  function getGuestName() {
-    const query = window.location.search.substring(1);
-    if (!query) return '';
-    // Support both ?name=Guest and ?Guest Name
-    if (query.startsWith('name=')) {
-      return decodeURIComponent(
-        query.replace(/^name=/, '').replace(/\+/g, ' ')
-      );
-    }
-    return decodeURIComponent(query.replace(/\+/g, ' '));
-  }
 
-  const guestName = getGuestName();
+    function openLanguagePopup() {
+      const popup = document.getElementById("langPopup");
+      popup.classList.add("show");
+    }
+
+    function closeLanguagePopup(event) {
+      const popup = document.getElementById("langPopup");
+      popup.classList.remove("show");
+    }
+
+    function chooseLanguage(lang) {
+      const popup = document.getElementById("langPopup");
+      popup.classList.remove("show");
+      document.getElementById("langCurrent").textContent = lang.toUpperCase();
+      switchLanguage(lang);
+    }
+
+    function switchLanguage(lang) {
+      document.documentElement.lang = lang;
+      const elements = document.querySelectorAll("[data-i18n]");
+      elements.forEach(el => {
+        el.classList.remove('show');
+        const key = el.getAttribute("data-i18n");
+        setTimeout(() => {
+          el.textContent = translations[lang][key] || el.textContent;
+          el.classList.add('show');
+        }, 200);
+      });
+    }
+
+    window.addEventListener("load", () => {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        el.classList.add('fade-translate', 'show');
+      });
+    });
   if (guestName) {
     // Find the "Pozivamo vas" section and insert guest name below
     const sections = document.querySelectorAll('.section-title');
