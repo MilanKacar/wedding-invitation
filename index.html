@@ -1203,7 +1203,7 @@ setTimeout(() => {
     // Find the "Pozivamo vas" section and insert guest name below
     const sections = document.querySelectorAll('.section-title');
     for (const section of sections) {
-      if (section.textContent.trim() === 'Pozivamo vas') {
+      if (section.textContent.trim() === 'Pozivamo') {
         const nameDiv = document.createElement('div');
         nameDiv.textContent = guestName;
         nameDiv.style.fontFamily = "'Tangerine', cursive";
