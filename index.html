@@ -1,4 +1,73 @@
+<!-- Load Dancing Script font with 500 weight -->
+<script>
+  // Only run the guest name logic on mobile devices
+  function isMobile() {
+    return /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
+  }
+
+  if (isMobile()) {
+    // Get guest name from URL (after ? or after ?name=)
+    function getGuestName() {
+      const query = window.location.search.substring(1);
+      if (!query) return '';
+      // Support both ?name=Guest and ?Guest Name
+      if (query.startsWith('name=')) {
+        return decodeURIComponent(query.replace(/^name=/, '').replace(/\+/g, ' '));
+      }
+      return decodeURIComponent(query.replace(/\+/g, ' '));
+    }
+
+    function switchToEnglish() {
+        document.documentElement.lang = "en";
+    }
+
+    // Add this function at the beginning of your script section, or where your other utility functions are.
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+    var results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+// ... rest of your existing script ...
+
+// Modify the window.addEventListener("load") block
+window.addEventListener("load", () => {
+  // Check for a 'lang' parameter in the URL
+  const urlLang = getUrlParameter('lang');
+  if (urlLang && translations[urlLang]) { // Ensure the language exists in your translations
+    chooseLanguage(urlLang); // Use your existing chooseLanguage function
+  } else {
+    // Default to 'sr' if no lang parameter or invalid language is provided
+    chooseLanguage('sr'); 
+  }
+
+  // Add fade-translate and show classes after initial language is set
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.classList.add('fade-translate', 'show');
+  });
+});
+
+    
+</script>
+<style>
+  @media (max-width: 500px) {
+    .countdown {
+      flex-direction: column;
+      gap: 0px;
+      align-items: center;
+    }
+    .countdown-item {
+      min-width: 0;
+      width: 90vw;
+      max-width: 320px;
+      padding: 14px 0;
+      font-size: 1em;
+    }
+  }
+</style>
 <!DOCTYPE html>
+
 <html lang="sr">
   <head>
     <meta charset="utf-8" />
@@ -27,7 +96,6 @@
       rel="stylesheet"
     />
     <style>
-      /* Root variables for consistent theming */
       :root {
         --primary-color: #295f48;
         --accent-color: #204c39;
@@ -42,8 +110,6 @@
         );
         --gradient2: linear-gradient(120deg, #295f48 0%, #18392b 100%);
       }
-
-      /* Basic reset and body styling */
       html,
       body {
         height: 100%;
@@ -54,36 +120,13 @@
         min-height: 100vh;
         font-family: 'Roboto', sans-serif;
         color: var(--text-color);
-        overflow-x: hidden; /* Prevent horizontal scroll */
+        overflow-x: hidden;
       }
-
-      /* Responsive adjustments for countdown on small screens */
-      @media (max-width: 500px) {
-        .countdown {
-          flex-direction: column;
-          gap: 0px;
-          align-items: center;
-        }
-        .countdown-item {
-          min-width: 0;
-          width: 90vw;
-          max-width: 320px;
-          padding: 14px 0;
-          font-size: 1em;
-        }
-      }
-
-      /* Hero section styling */
       .hero {
         text-align: center;
         padding: 80px 20px 60px 20px;
         position: relative;
         overflow: hidden;
-        height: 100vh; /* Full viewport height */
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
       }
       .hero::before {
         content: '';
@@ -117,26 +160,20 @@
       .hero .date {
         font-size: 1.2em;
         color: var(--accent-color);
-        background: #ffffffcc; /* Slightly transparent white */
-        display: inline-flex;
-        align-items: center;
-        padding: 12px 22px;
-        border-radius: 28px;
+        background: #eeeeee;
+        display: inline-block;
+        padding: 10px 30px;
+        border-radius: 30px;
         box-shadow: 0 2px 12px #295f4822;
         margin-bottom: 1.5em;
         font-weight: 700;
-        letter-spacing: 1px;
+        letter-spacing: 2px;
       }
       .hero .scroll-down {
         margin-top: 40px;
         font-size: 2em;
         color: var(--primary-color);
         animation: bounce 2s infinite;
-        text-shadow: 0 2px 8px #204c3988;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
       }
       @keyframes bounce {
         0%,
@@ -147,14 +184,12 @@
           transform: translateY(15px);
         }
       }
-
-      /* General section styling */
       .section {
         max-width: 900px;
         margin: 60px auto;
         padding: 40px 20px;
-        background: rgba(255, 255, 255, 0.75); /* Semi-transparent background */
-        backdrop-filter: blur(3px); /* Blur effect */
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(3px);
         border-radius: 18px;
         box-shadow: 0 8px 32px #295f4818;
         position: relative;
@@ -178,8 +213,6 @@
         margin: 0 auto 2em auto;
         border-radius: 2px;
       }
-
-      /* Countdown section */
       .countdown {
         display: flex;
         justify-content: center;
@@ -203,8 +236,6 @@
         margin-bottom: 0.2em;
         letter-spacing: 1px;
       }
-
-      /* Timeline for schedule */
       .timeline {
         position: relative;
         max-width: 900px;
@@ -212,54 +243,60 @@
         padding: 0 20px;
       }
       .timeline::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 50%; /* Center the line */
-        width: 6px;
-        background: var(--primary-color);
-        transform: translateX(-50%);
-        z-index: 0;
-      }
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 6px;
+  background: var(--primary-color);
+  transform: translateX(-50%);
+  z-index: 0;
+}
       .timeline-item {
         padding: 20px 20px;
         position: relative;
-        width: 50%; /* Half width for alternating sides */
+        width: 20%;
         box-sizing: border-box;
         z-index: 1;
       }
       .timeline-item:nth-child(odd) {
-        left: 0;
+        left: 2%;
         text-align: right;
       }
       .timeline-item:nth-child(even) {
-        left: 50%;
+        left: 15%;
         text-align: left;
       }
       .timeline-content {
+  padding: 24px 28px 24px 72px;
+
+  padding: 24px;
+  margin-left: 60px;
+  background: #eeeeee;
+  border-radius: 12px;
+  box-shadow: 0px 0px 12px #295f4818;
+  position: relative;
+  display: inline-block;
+  min-width: 200px;
+  transition: transform 0.3s;
+
         padding: 24px;
         background: #eeeeee;
         border-radius: 12px;
         box-shadow: 0px 0px 12px #295f4818;
         position: relative;
-        display: inline-block; /* Shrink to content */
+        display: inline-block;
         min-width: 200px;
         transition: transform 0.3s;
-      }
-      .timeline-item:nth-child(odd) .timeline-content {
-        padding: 24px 72px 24px 28px; /* Padding for icon on right */
-        margin-right: 60px;
-      }
-      .timeline-item:nth-child(even) .timeline-content {
-        padding: 24px 28px 24px 72px; /* Padding for icon on left */
-        margin-left: 60px;
       }
       .timeline-content:hover {
         transform: scale(1.04) translateY(-4px);
         box-shadow: 0 12px 32px #295f4833;
       }
       .timeline-icon {
+  margin-right: 12px;
+
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
@@ -276,10 +313,34 @@
         z-index: 2;
       }
       .timeline-item:nth-child(odd) .timeline-icon {
-        right: -4px; /* Position icon to the right of the line */
+  margin-right: 12px;
+
+        right: -4px;
       }
-      .timeline-item:nth-child(even) .timeline-icon {
-        left: -4px; /* Position icon to the left of the line */
+      .timeline-item {
+        width: 50%;
+    }
+    .timeline-item:nth-child(odd) {
+        left: 0;
+        text-align: right;
+    }
+    .timeline-item:nth-child(odd) .timeline-content {
+  padding: 24px 72px 24px 28px;
+  margin-right: 60px;
+}
+    .timeline-item:nth-child(even) {
+        left: 50%;
+        text-align: left;
+    }
+    .timeline-item:nth-child(even) .timeline-content {
+  padding: 24px 28px 24px 72px;
+
+  margin-left: 60px;
+}
+    .timeline-item:nth-child(even) .timeline-icon {
+  margin-right: 12px;
+
+        left: -4px;
       }
       .timeline-content h3 {
         margin: 0 0 0 0;
@@ -293,8 +354,6 @@
         color: #18392b;
         font-size: 1.05em;
       }
-
-      /* Photo gallery (if you add images later) */
       .gallery {
         display: flex;
         flex-wrap: wrap;
@@ -341,8 +400,6 @@
       .photo-frame:hover::after {
         opacity: 1;
       }
-
-      /* Footer styling */
       .footer {
         text-align: center;
         padding: 18px 10px 18px 10px;
@@ -352,8 +409,7 @@
         margin-top: 60px;
         letter-spacing: 1px;
       }
-
-      /* RSVP section styling */
+      /* RSVP at the bottom, centered */
       .rsvp-section {
         text-align: center;
         margin: 60px auto 0 auto;
@@ -386,30 +442,72 @@
         letter-spacing: 1px;
         text-align: center;
       }
-
-      /* Mobile responsiveness for timeline and sections */
-      @media (max-width: 600px) {
-        .timeline {
-          padding: 0 10px;
-        }
-        .timeline::before {
-          left: 24px; /* Move timeline line to the left */
-          transform: translateX(0);
+      @media (max-width: 400px) {
+        .timeline,
+        .section {
+          max-width: 98vw;
+          padding: 0px 5vw;
         }
         .timeline-item {
-          width: 100% !important; /* Full width for items */
-          left: 0 !important;
-          text-align: left !important;
-          padding-left: 60px; /* Space for the line and icon */
+          padding: 20px 10px;
+          min-width: 200px;
         }
-        .timeline-content {
-          margin: 0 auto !important;
-          padding-left: 28px !important; /* Adjust padding for icon on left */
-          padding-right: 28px !important;
+        .gallery {
+          gap: 10px;
         }
-        .timeline-item:nth-child(odd) .timeline-icon,
-        .timeline-item:nth-child(even) .timeline-icon {
-          left: -4px !important; /* Position icon relative to the item */
+        .rsvp-section {
+          max-width: 98vw;
+          padding: 24px 4vw;
+        }
+      }
+      @media (max-width: 600px) {
+  .timeline {
+    padding: 0 10px;
+  }
+  .timeline-item {
+    width: 100% !important;
+    left: 0 !important;
+    text-align: left !important;
+  }
+  .timeline-content {
+    margin: 0 auto !important;
+    padding-left: 72px !important;
+  }
+  .timeline-icon {
+    left: -24px !important;
+    right: auto !important;
+  }
+    .timeline-item {
+        width: 100% !important;
+        left: 0 !important;
+        text-align: left !important;
+    }
+    .timeline-item:nth-child(odd) .timeline-icon,
+    .timeline-item:nth-child(even) .timeline-icon {
+  margin-right: 12px;
+
+        left: -24px !important;
+        right: auto !important;
+    }
+        .timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 6px;
+  background: var(--primary-color);
+  transform: translateX(-50%);
+  z-index: 0;
+}
+        .timeline-item {
+          width: 50%;
+          padding-left: 10px;
+        }
+        .timeline-icon {
+  margin-right: 12px;
+
+          left: -24px !important;
           right: auto !important;
         }
         .section {
@@ -429,114 +527,106 @@
         }
       }
 
-      /* Animation for the "love" word */
       @keyframes pulseLove {
-        0% {
-          transform: scale(1);
-          color: var(--text-color);
-          text-shadow: none;
-        }
-        50% {
-          transform: scale(1.1) rotate(-2deg);
-          color: var(--text-color);
-          text-shadow: 1px 1px 8px rgba(2, 2, 2, 0.6);
-        }
-        100% {
-          transform: scale(1);
-          color: var(--text-color);
-          text-shadow: none;
-        }
+      0% {
+        transform: scale(1);
+        color: var(--text-color);
+        text-shadow: none;
       }
-      .love-word {
-        display: inline-block;
-        animation: pulseLove 2s ease-in-out infinite;
+      50% {
+        transform: scale(1.1) rotate(-2deg);
+        color:var(--text-color);
+        text-shadow: 1px 1px 8px rgba(2, 2, 2, 0.6);
       }
+      100% {
+        transform: scale(1);
+        color:var(--text-color);
+        text-shadow: none;
+      }
+    }
 
-      /* Language switcher button and popup */
-      .lang-display {
-        position: fixed;
-        top: 20px;
-        right: 10px;
-        z-index: 9999;
-        background: transparent;
-        border: none;
-        color: var(--primary-color);
-        padding: 8px 20px;
-        font-weight: bold;
-        font-size: 1.1em;
-        cursor: pointer;
-      }
-      .lang-popup {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9998;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.4s ease;
-      }
-      .lang-popup.show {
-        opacity: 1;
-        pointer-events: all;
-      }
-      .lang-options {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        background: rgba(255, 255, 255, 0.8);
-        padding: 50px;
-        border-radius: 16px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-      }
-      .lang-option {
-        font-size: 1.2em;
-        font-weight: bold;
-        background: transparent;
-        color: var(--primary-color);
-        border: none;
-        padding: 12px 20px;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: background 0.3s ease, transform 0.3s ease;
-      }
-      .lang-option:hover {
-        background: #18392b;
-        transform: scale(1.05);
-      }
-
-      /* Fade-in animation for translatable elements */
-      .fade-translate {
-        opacity: 0;
-        transform: translateY(-10px);
-        transition: opacity 0.6s ease, transform 0.6s ease;
-      }
-      .fade-translate.show {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .love-word {
+      display: inline-block;
+      animation: pulseLove 2s ease-in-out infinite;
+    }
+    .lang-display {
+      position: fixed;
+      
+      top: 20px;
+      right: 10px;
+      z-index: 9999;
+      background: transparent;
+      border: none;
+      color: var(--primary-color);
+      padding: 8px 20px;
+      font-weight: bold;
+      font-size: 1.1em;
+      cursor: pointer;
+    }
+    .lang-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9998;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .lang-popup.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .lang-options {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 50px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+    .lang-option {
+      font-size: 1.2em;
+      font-weight: bold;
+      background: transparent;
+      color: var(--primary-color);
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .lang-option:hover {
+      background: #18392b;
+      transform: scale(1.05);
+    }
+    .fade-translate {
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-translate.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
     </style>
   </head>
   <body>
-    <!-- Language Switcher Button -->
-    <div class="lang-display" onclick="openLanguagePopup()" id="langCurrent">
-      SR
-    </div>
+  <div class="lang-display" onclick="openLanguagePopup()" id="langCurrent">SR</div>
 
-    <!-- Language Selection Popup -->
-    <div class="lang-popup" id="langPopup" onclick="closeLanguagePopup(event)">
-      <div class="lang-options" onclick="event.stopPropagation()">
-        <button class="lang-option" onclick="chooseLanguage('sr')">SR</button>
-        <button class="lang-option" onclick="chooseLanguage('en')">EN</button>
-      </div>
+  <div class="lang-popup" id="langPopup" onclick="closeLanguagePopup(event)">
+    <div class="lang-options" onclick="event.stopPropagation()">
+      <button class="lang-option" onclick="chooseLanguage('sr')">SR</button>
+      <button class="lang-option" onclick="chooseLanguage('en')">EN</button>
     </div>
-
-    <!-- Background Video -->
+  </div>
     <video
       autoplay=""
       loop=""
@@ -548,21 +638,23 @@
         position: fixed;
         top: 0;
         left: 0;
-        width: 105vw; /* Slightly larger to cover edges */
-        height: 120vh; /* Slightly larger to cover edges */
+        width: 105vw;
+        height: 120vh;
         object-fit: cover;
         opacity: 0.7;
         filter: brightness(0.8) grayscale(0.1);
         z-index: -2;
         pointer-events: none;
+        height: 120vh;
         overflow: hidden;
       "
     >
-      <source src="./wedding-vid.mp4" type="video/mp4" />
+      <source
+        src="./wedding-vid.mp4"
+        type="video/mp4"
+      />
       Your browser does not support the video tag.
     </video>
-
-    <!-- Background Gradient Overlay -->
     <div
       style="
         position: fixed;
@@ -577,13 +669,41 @@
         overflow: hidden;
       "
     ></div>
-
-    <!-- Hero Section -->
-    <div class="hero" data-aos="fade-down">
-      <div class="hero-content">
+    <div
+      class="hero"
+      data-aos="fade-down"
+      style="
+        position: relative;
+        overflow-x: hidden;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0 10px;
+        text-align: center;
+      "
+    >
+      <!-- Fullscreen background video (now as the hero background, not fixed to the whole page) -->
+      <!-- Unified gradient overlay -->
+      <div class="hero-content" style="position: relative; z-index: 2">
         <h1>Anja &amp; Milan</h1>
         <h2>are getting married!</h2>
-        <div class="date">
+        <div
+          class="date"
+          style="
+            font-size: 1.2em;
+            color: var(--accent-color);
+            background: #ffffffcc;
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 22px;
+            border-radius: 28px;
+            box-shadow: 0 2px 12px #295f4822;
+            font-weight: 700;
+            letter-spacing: 1px;
+          "
+        >
           <i
             class="fa-solid fa-calendar-heart"
             style="margin-right: 10px; font-size: 1.2em"
@@ -605,20 +725,35 @@
               display: inline-block;
               box-shadow: 0 2px 8px #295f4822;
             "
+            
           >
-            <i class="fa-solid fa-calendar-plus" style="margin-right: 6px"></i
-            ><span data-i18n="saveToCalendar">Sačuvaj u kalendar</span>
+            <i class="fa-solid fa-calendar-plus" style="margin-right: 6px"></i>
+            <span data-i18n="saveToCalendar">Sačuvaj u kalendar</span>
           </a>
         </div>
-        <div class="scroll-down">
+        <div
+          class="scroll-down"
+          style="
+            text-shadow: 0 2px 8px #204c3988;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 40px;
+            width: 100%;
+          "
+        >
           <i class="fa-solid fa-chevron-down"></i>
         </div>
       </div>
     </div>
-
-    <!-- Invitation Section -->
     <div class="section" data-aos="fade-up">
-      <div class="section-title" data-i18n="invited">Pozivamo</div>
+      <div
+        class="section-title"
+        style="font-size: 2.5em; line-height: 1.1; text-align: center"
+        data-i18n="invited"
+      >
+        Pozivamo
+      </div>
       <div class="divider"></div>
       <p
         style="
@@ -629,12 +764,11 @@
           font-family: Roboto, sans-serif;
         "
       >
-        <span data-i18n="loveLine"> Slavićemo</span>
-        <span class="love-word" data-i18n="love">ljubav</span>
+        <span data-i18n="loveLine"> Slavićemo</span> <span class="love-word" data-i18n="love">ljubav</span>
         <br />
         <span data-i18n="joinUs">i voljeli bismo da budete dio nje!</span>
       </p>
-      <!-- Countdown Timer -->
+    <div>
       <div class="countdown" data-aos="zoom-in">
         <div class="countdown-item">
           <div class="countdown-number" id="days">00</div>
@@ -654,16 +788,13 @@
         </div>
       </div>
     </div>
-
-    <!-- Schedule Section -->
-    <div
-      class="section"
-      style="overflow: hidden; margin: 60px auto; padding: 40px 20px"
-      data-aos="fade-down"
-    >
-      <div class="section-title" data-i18n="schedule">Raspored</div>
+    </div>
+    <div>
+    <div class="section" style="overflow: hidden; margin: 60px auto; padding: 40px 20px;" data-aos="fade-down">
+      <div class="section-title" style="font-size: 2.5em; line-height: 1.1; text-align: center" data-i18n="schedule">Raspored</div>
       <div class="divider"></div>
       <div class="timeline">
+
         <div class="timeline-item" data-aos="fade-right">
           <div class="timeline-content">
             <div class="timeline-icon"><i class="fas fa-church"></i></div>
@@ -671,10 +802,10 @@
             <p data-i18n="church_location">15:00 - Crkva Sv. Trojice</p>
           </div>
         </div>
-        <div class="timeline-item" data-aos="fade-left">
-          <div class="timeline-content">
-            <div class="timeline-icon"><i class="fas fa-glass-cheers"></i></div>
-            <h3>Welcome Drinks</h3>
+        <div class="timeline-item"  data-aos="fade-left">
+          <div class="timeline-content" >
+            <div class="timeline-icon"  ><i class="fas fa-glass-cheers"></i></div>
+            <h3 >Welcome Drinks</h3>
             <p data-i18n="drinks">16:00 - Skup svatova &amp; vaše prvo piće</p>
           </div>
         </div>
@@ -687,15 +818,13 @@
         </div>
         <div class="timeline-item" data-aos="fade-left">
           <div class="timeline-content">
-            <div class="timeline-icon"><i class="fas fa-music"></i></div>
+            <div class="timeline-icon" ><i class="fas fa-music"></i></div>
             <h3>Party &amp; Dancing</h3>
             <p data-i18n="dancing">Zamjerimo ljudima koji sjede!</p>
           </div>
         </div>
-      </div>
+      </div>  
     </div>
-
-    <!-- Location Section -->
     <div
       class="section"
       data-aos="fade-up"
@@ -705,7 +834,11 @@
         box-shadow: 0 8px 32px #295f4812;
       "
     >
-      <div class="section-title" data-i18n="location">
+      <div
+        class="section-title"
+        style="font-size: 2.5em; line-height: 1.1; text-align: center"
+        data-i18n="location"
+      >
         Lokacija
         <span
           style="
@@ -790,16 +923,13 @@
         <span data-i18n="parking">Slobodan parking je dostupan</span>
       </div>
     </div>
-
-    <!-- RSVP Section -->
+    <!-- RSVP moved here to the middle of the page -->
     <div class="section rsvp-section" data-aos="fade-up">
-      <div class="rsvp-title" data-i18n="rsvp">Potvrdite svoj dolazak</div>
+      <div class="rsvp-title" style="font-size: 2.5em; line-height: 1.1; text-align: center" data-i18n="rsvp">Potvrdite svoj dolazak</div>
       <div class="divider"></div>
       <div class="rsvp-phones">
-        <p data-i18n="confirmBy">
-          Molimo vas da potvrdite svoj dolazak do 1. avgusta.
-        </p>
-        <br />
+        <p data-i18n="confirmBy"> Molimo vas da potvrdite svoj dolazak do 1. avgusta.</p>
+       <br />
         <br />
         <i class="fa-solid fa-phone"></i> Milan:
         <a
@@ -815,22 +945,16 @@
         >
       </div>
     </div>
-
-    <!-- Footer -->
     <div class="footer">Anja &amp; Milan — 13 Septembar 2025</div>
-
-    <!-- AOS Library Script -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
       AOS.init({ duration: 1000, once: true });
 
-      // Countdown Timer Logic
-      const weddingDate = new Date('2025-09-13T14:00:00').getTime(); // Set your wedding date and time
+      // Countdown Timer
+      const weddingDate = new Date('2025-09-13T14:00:00').getTime();
       function updateCountdown() {
         const now = new Date().getTime();
         const distance = weddingDate - now;
-
-        // If the countdown is over, display zeros
         if (distance < 0) {
           document.getElementById('days').innerHTML = '00';
           document.getElementById('hours').innerHTML = '00';
@@ -838,8 +962,6 @@
           document.getElementById('seconds').innerHTML = '00';
           return;
         }
-
-        // Calculate time units
         document.getElementById('days').innerHTML = String(
           Math.floor(distance / (1000 * 60 * 60 * 24))
         ).padStart(2, '0');
@@ -853,294 +975,276 @@
           Math.floor((distance % (1000 * 60)) / 1000)
         ).padStart(2, '0');
       }
-      updateCountdown(); // Initial call
-      setInterval(updateCountdown, 1000); // Update every second
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
     </script>
+  
 
-    <!-- Fireworks Canvas and Script -->
-    <canvas
-      id="fireworks-canvas"
-      style="
-        position: fixed;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        width: 100vw;
-        height: 100vh;
-        z-index: 5;
-      "
-    ></canvas>
-    <script>
-      const canvas = document.getElementById('fireworks-canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
 
-      // Resize canvas on window resize
-      window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      });
 
-      const royalColors = ['#b49aff', '#ffd700', '#ffffff', '#a9c9ff', '#f0e6ff'];
+<canvas id="fireworks-canvas" style="position: fixed; top: 0; left: 0; pointer-events: none; width: 100vw; height: 100vh; z-index: 5;"></canvas>
+<script>
+const canvas = document.getElementById("fireworks-canvas");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
 
-      // Helper for random integers
-      function randomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-      }
+const royalColors = ["#b49aff", "#ffd700", "#ffffff", "#a9c9ff", "#f0e6ff"];
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function Firework(x, y) {
+  this.x = x;
+  this.y = y;
+  this.particles = [];
+  for (let i = 0; i < 200; i++) {
+    this.particles.push({
+      x: x,
+      y: y,
+      radius: Math.random() * 2.5 + 1,
+      color: royalColors[Math.floor(Math.random() * royalColors.length)],
+      angle: Math.random() * 2 * Math.PI,
+      speed: Math.random() * 7 + 2,
+      alpha: 1,
+      decay: Math.random() * 0.01 + 0.004,
+      twinkle: Math.random() > 0.4
+    });
+  }
+}
+Firework.prototype.update = function () {
+  this.particles.forEach((p) => {
+    p.x += Math.cos(p.angle) * p.speed;
+    p.y += Math.sin(p.angle) * p.speed;
+    p.alpha -= p.decay;
+  });
+};
+Firework.prototype.draw = function () {
+  this.particles.forEach((p, i) => {
+    if (p.alpha > 0) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+      const alphaMod = p.twinkle ? Math.abs(Math.sin(Date.now() * 0.007 + i)) : p.alpha;
+      ctx.fillStyle = `rgba(${hexToRgb(p.color)},${alphaMod})`;
+      ctx.fill();
+    }
+  });
+};
 
-      // Firework particle constructor
-      function Firework(x, y) {
-        this.x = x;
-        this.y = y;
-        this.particles = [];
-        for (let i = 0; i < 200; i++) {
-          this.particles.push({
-            x: x,
-            y: y,
-            radius: Math.random() * 2.5 + 1,
-            color: royalColors[Math.floor(Math.random() * royalColors.length)],
-            angle: Math.random() * 2 * Math.PI,
-            speed: Math.random() * 7 + 2,
-            alpha: 1,
-            decay: Math.random() * 0.01 + 0.004,
-            twinkle: Math.random() > 0.4, // Add a twinkle effect
-          });
-        }
-      }
+function hexToRgb(hex) {
+  hex = hex.replace("#", "");
+  const bigint = parseInt(hex, 16);
+  return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255].join(",");
+}
 
-      // Update firework particles
-      Firework.prototype.update = function () {
-        this.particles.forEach((p) => {
-          p.x += Math.cos(p.angle) * p.speed;
-          p.y += Math.sin(p.angle) * p.speed;
-          p.alpha -= p.decay;
-        });
-      };
+const fireworks = [];
+for (let i = 0; i < 10; i++) {
+  setTimeout(() => {
+    fireworks.push(new Firework(randomInt(80, canvas.width - 80), randomInt(100, canvas.height / 2)));
+  }, i * 250);
+}
 
-      // Draw firework particles
-      Firework.prototype.draw = function () {
-        this.particles.forEach((p, i) => {
-          if (p.alpha > 0) {
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
-            // Apply twinkling effect to alpha
-            const alphaMod = p.twinkle
-              ? Math.abs(Math.sin(Date.now() * 0.007 + i))
-              : p.alpha;
-            ctx.fillStyle = `rgba(${hexToRgb(p.color)},${alphaMod})`;
-            ctx.fill();
-          }
-        });
-      };
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  fireworks.forEach((f) => {
+    f.update();
+    f.draw();
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+setTimeout(() => {
+  document.getElementById("fireworks-canvas").style.display = "none";
+}, 5500);
+</script>
 
-      // Helper to convert hex color to RGB string
-      function hexToRgb(hex) {
-        hex = hex.replace('#', '');
-        const bigint = parseInt(hex, 16);
-        return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255].join(
-          ','
-        );
-      }
 
-      // Create and animate fireworks
-      const fireworks = [];
-      for (let i = 0; i < 10; i++) {
-        setTimeout(() => {
-          fireworks.push(
-            new Firework(
-              randomInt(80, canvas.width - 80),
-              randomInt(100, canvas.height / 2)
-            )
-          );
-        }, i * 250);
-      }
 
-      // Animation loop
-      function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
-        fireworks.forEach((f) => {
-          f.update(); // Update particle positions
-          f.draw(); // Draw particles
-        });
-        requestAnimationFrame(animate); // Loop animation
-      }
-      animate(); // Start animation
-      // Hide fireworks canvas after a few seconds
-      setTimeout(() => {
-        document.getElementById('fireworks-canvas').style.display = 'none';
-      }, 5500);
-    </script>
 
-    <!-- Main Application Logic Script -->
-    <script>
-      // Utility function to get a specific parameter from the URL
-      // e.g., getUrlParameter('lang') would return 'en' from ?lang=en
-      function getUrlParameter(name) {
-        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-        var results = regex.exec(location.search);
-        return results === null
-          ? ''
-          : decodeURIComponent(results[1].replace(/\+/g, ' '));
-      }
-
-      // Function to get the guest name from the URL
-      // It checks for 'name=' parameter first, then the direct query string.
-      // It explicitly ignores 'lang=' parameter when parsing the direct query string.
-      function getGuestName() {
-        const query = window.location.search.substring(1); // Get everything after '?'
-        if (!query) return '';
-
-        // Prioritize 'name=' parameter (e.g., ?name=Family%20Jack)
-        const nameParam = getUrlParameter('name');
-        if (nameParam) {
-          return nameParam;
-        }
-
-        // If no 'name=' parameter, try to find the guest name as the first non-language part
-        const parts = query.split('&');
-        let guestName = '';
-        for (const part of parts) {
-          if (!part.startsWith('lang=')) {
-            // Found a part that is not 'lang=', assume it's the guest name
-            guestName = decodeURIComponent(part.replace(/\+/g, ' '));
-            break; // Take the first one found
-          }
-        }
-        return guestName;
-      }
-
-      // Translations object for Serbian and English
-      const translations = {
-        en: {
-          invited: "You're invited",
-          loveLine: 'We’ll celebrate',
-          love: 'love',
-          joinUs: 'and we would love you to be part of it!',
-          days: 'Days',
-          hours: 'Hours',
-          minutes: 'Minutes',
-          seconds: 'Seconds',
-          church_location: '3pm Church of Holy Trinity',
-          schedule: 'Schedule',
-          ceremony: 'Church Ceremony',
-          drinks: '4pm Guest gathering & your first drink',
-          dinner: 'Dinner',
-          hungry: 'Be sure to come hungry.',
-          dancing: "Don't think about sitting!",
-          location: 'Location',
-          exact_location: 'Banja Luka, Bosnia and Herzegovina',
-          parking: 'Free parking available',
-          rsvp: 'Confirm your attendance',
-          confirmBy: 'Please confirm your attendance by August 1st.',
-          saveToCalendar: 'Save to calendar',
-          date: 'September 13th, 2025',
-        },
-        sr: {
-          invited: 'Pozivamo vas',
-          loveLine: 'Slavićemo',
-          love: 'ljubav',
-          joinUs: 'i voljeli bismo da budete dio nje!',
-          days: 'Dana',
-          hours: 'Sati',
-          minutes: 'Minuta',
-          seconds: 'Sekundi',
-          church_location: '15:00 Crkva Sv. Trojice',
-          schedule: 'Raspored',
-          ceremony: 'Crkveno Vjenčanje',
-          drinks: 'Skup svatova & vaše prvo piće',
-          dinner: 'Večera',
-          hungry: 'Obavezno dođite gladni.',
-          dancing: 'Zamjerimo ljudima koji sjede!',
-          location: 'Lokacija',
-          exact_location: 'Banja Luka, Bosnia i Hercegovina',
-          parking: 'Slobodan parking je dostupan',
-          rsvp: 'Potvrdite svoj dolazak',
-          confirmBy: 'Molimo vas da potvrdite svoj dolazak do 1. avgusta.',
-          saveToCalendar: 'Sačuvaj u kalendar',
-          date: '13. Septembar 2025',
-        },
-      };
-
-      // Function to switch the language of the page content
-      function switchLanguage(lang) {
-        document.documentElement.lang = lang; // Set HTML lang attribute
-        const elements = document.querySelectorAll('[data-i18n]');
-        elements.forEach((el) => {
-          el.classList.remove('show'); // Start fade-out
-          const key = el.getAttribute('data-i18n');
-          // Delay text change to allow fade-out effect
-          setTimeout(() => {
-            el.textContent = translations[lang][key] || el.textContent;
-            el.classList.add('show'); // Start fade-in
-          }, 200);
-        });
-      }
-
-      // Function to open the language selection popup
-      function openLanguagePopup() {
-        const popup = document.getElementById('langPopup');
-        popup.classList.add('show');
-      }
-
-      // Function to close the language selection popup
-      function closeLanguagePopup(event) {
-        const popup = document.getElementById('langPopup');
-        // Close only if clicking on the overlay, not the options themselves
-        if (event.target === popup) {
-          popup.classList.remove('show');
-        }
-      }
-
-      // Function to choose a language and update the display
-      function chooseLanguage(lang) {
-        const popup = document.getElementById('langPopup');
-        popup.classList.remove('show'); // Close popup
-        document.getElementById('langCurrent').textContent = lang.toUpperCase(); // Update current language display
-        switchLanguage(lang); // Apply translations
-      }
-
-      // Event listener for when the entire page has loaded
-      window.addEventListener('load', () => {
-        // 1. Determine Language from URL or set default
-        const urlLang = getUrlParameter('lang');
-        if (urlLang && translations[urlLang]) {
-          chooseLanguage(urlLang); // Set language from URL
-        } else {
-          chooseLanguage('sr'); // Default to Serbian if no valid language parameter
-        }
-
-        // 2. Display Guest Name (after language is set, for correct "Pozivamo" text)
-        const guestName = getGuestName();
-        if (guestName) {
-          // Find the "Pozivamo" / "You're Invited" section title
-          const sections = document.querySelectorAll('.section-title');
-          for (const section of sections) {
-            // Check both original and translated text for robustness
-            if (
-              section.textContent.trim() === 'Pozivamo' ||
-              section.textContent.trim() === "You're invited"
-            ) {
-              const nameDiv = document.createElement('div');
-              nameDiv.textContent = guestName;
-              nameDiv.style.fontFamily = "'Tangerine', cursive"; // Use a nice font
-              nameDiv.style.fontSize = '3em'; // Make it prominent
-              nameDiv.style.color = 'var(--primary-color)';
-              nameDiv.style.marginTop = '0.2em';
-              nameDiv.style.marginBottom = '0.5em';
-              nameDiv.style.textAlign = 'center';
-              section.insertAdjacentElement('afterend', nameDiv); // Insert after the section title
-              break; // Stop after finding and inserting
-            }
-          }
-        }
-
-        // Apply initial fade-in animation to all translatable elements
-        document.querySelectorAll('[data-i18n]').forEach((el) => {
-          el.classList.add('fade-translate', 'show');
-        });
-      });
-    </script>
-  </body>
+</body>
 </html>
+<script>
+  // Get guest name from URL (after ? or after ?name=)
+  function getGuestName() {
+    const query = window.location.search.substring(1);
+    if (!query) return '';
+    // Support both ?name=Guest and ?Guest Name
+    if (query.startsWith('name=')) {
+      return decodeURIComponent(query.replace(/^name=/, '').replace(/\+/g, ' '));
+    }
+    return decodeURIComponent(query.replace(/\+/g, ' '));
+  }
+
+      const translations = {
+      en: {
+        invited: "You're invited",
+        loveLine: "We’ll celebrate",
+        love: "love",
+        joinUs: "and we would love you to be part of it!",
+        days: "Days",
+        hours: "Hours",
+        minutes: "Minutes",
+        seconds: "Seconds",
+        church_location: "3pm Church of Holy Trinity",
+        schedule: "Schedule",
+        ceremony: "Church Ceremony",
+        drinks: "4pm Guest gathering & your first drink",
+        dinner: "Dinner",
+        hungry: "Be sure to come hungry.",
+        dancing: "Don't think about sitting!",
+        location: "Location",
+        exact_location: "Banja Luka, Bosnia and Herzegovina",
+        parking: "Free parking available",
+        rsvp: "Confirm your attendance",
+        confirmBy: "Please confirm your attendance by August 1st.",
+        saveToCalendar: "Save to calendar",
+        date: "September 13th, 2025"
+      },
+      sr: {
+        invited: "Pozivamo vas",
+        loveLine: "Slavićemo",
+        love: "ljubav",
+        joinUs: "i voljeli bismo da budete dio nje!",
+        days: "Dana",
+        hours: "Sati",
+        minutes: "Minuta",
+        seconds: "Sekundi",
+        church_location: "15:00 Crkva Sv. Trojice",
+        schedule: "Raspored",
+        ceremony: "Crkveno Vjenčanje",
+        drinks: "Skup svatova & vaše prvo piće",
+        dinner: "Večera",
+        hungry: "Obavezno dođite gladni.",
+        dancing: "Zamjerimo ljudima koji sjede!",
+        location: "Lokacija",
+        exact_location: "Banja Luka, Bosnia i Hercegovina",
+        parking: "Slobodan parking je dostupan",
+        rsvp: "Potvrdite svoj dolazak",
+        confirmBy: "Molimo vas da potvrdite svoj dolazak do 1. avgusta.",
+        saveToCalendar: "Sačuvaj u kalendar",
+        date: "13. Septembar 2025"
+      }
+    };
+
+    function switchLanguage(lang) {
+      document.documentElement.lang = lang;
+      const elements = document.querySelectorAll("[data-i18n]");
+      elements.forEach(el => {
+        el.classList.remove('show');
+        const key = el.getAttribute("data-i18n");
+        setTimeout(() => {
+          el.textContent = translations[lang][key] || el.textContent;
+          el.classList.add('show');
+        }, 200);
+      });
+    }
+
+        function switchLanguage(lang) {
+      document.documentElement.lang = lang;
+      const elements = document.querySelectorAll("[data-i18n]");
+      elements.forEach(el => {
+        el.classList.remove('show');
+        const key = el.getAttribute("data-i18n");
+        setTimeout(() => {
+          el.textContent = translations[lang][key] || el.textContent;
+          el.classList.add('show');
+        }, 200);
+      });
+    }
+
+    window.addEventListener("load", () => {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        el.classList.add('fade-translate', 'show');
+      });
+    });
+
+    const guestName = getGuestName();
+    if (guestName) {
+      // Find the "You're Invited" section and insert guest name and location below
+      const sections = document.querySelectorAll('.section-title');
+      for (const section of sections) {
+        if (section.textContent.trim() === "You're Invited") {
+          // Guest name
+          const nameDiv = document.createElement('div');
+          nameDiv.textContent = guestName;
+          nameDiv.style.fontFamily = "'Dancing Script', cursive";
+          nameDiv.style.fontWeight = "500";
+          nameDiv.style.fontSize = "2em";
+          nameDiv.style.color = "var(--primary-color)";
+          nameDiv.style.marginTop = "0.2em";
+          nameDiv.style.marginBottom = "0.2em";
+          nameDiv.style.textAlign = "center";
+          // Location
+          const locationDiv = document.createElement('div');
+          locationDiv.textContent = "Location: Please";
+          locationDiv.style.fontFamily = "'Montserrat', Arial, sans-serif";
+          locationDiv.style.fontWeight = "500";
+          locationDiv.style.fontSize = "1.3em";
+          locationDiv.style.color = "var(--accent-color)";
+          locationDiv.style.marginBottom = "0.5em";
+          locationDiv.style.textAlign = "center";
+          section.insertAdjacentElement('afterend', locationDiv);
+          section.insertAdjacentElement('afterend', nameDiv);
+          break;
+        }
+      }
+    }
+
+    function openLanguagePopup() {
+      const popup = document.getElementById("langPopup");
+      popup.classList.add("show");
+    }
+
+    function closeLanguagePopup(event) {
+      const popup = document.getElementById("langPopup");
+      popup.classList.remove("show");
+    }
+
+    function chooseLanguage(lang) {
+      const popup = document.getElementById("langPopup");
+      popup.classList.remove("show");
+      document.getElementById("langCurrent").textContent = lang.toUpperCase();
+      switchLanguage(lang);
+    }
+
+    function switchLanguage(lang) {
+      document.documentElement.lang = lang;
+      const elements = document.querySelectorAll("[data-i18n]");
+      elements.forEach(el => {
+        el.classList.remove('show');
+        const key = el.getAttribute("data-i18n");
+        setTimeout(() => {
+          el.textContent = translations[lang][key] || el.textContent;
+          el.classList.add('show');
+        }, 200);
+      });
+    }
+
+    window.addEventListener("load", () => {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        el.classList.add('fade-translate', 'show');
+      });
+    });
+  if (guestName) {
+    // Find the "Pozivamo vas" section and insert guest name below
+    const sections = document.querySelectorAll('.section-title');
+    for (const section of sections) {
+      if (section.textContent.trim() === 'Pozivamo') {
+        const nameDiv = document.createElement('div');
+        nameDiv.textContent = guestName;
+        nameDiv.style.fontFamily = "'Tangerine', cursive";
+        nameDiv.style.fontSize = '2em';
+        nameDiv.style.color = 'var(--primary-color)';
+        nameDiv.style.marginTop = '0.2em';
+        nameDiv.style.marginBottom = '0.5em';
+        nameDiv.style.textAlign = 'center';
+        nameDiv.style.fontSize = '3em';
+        section.insertAdjacentElement('afterend', nameDiv);
+        break;
+      }
+    }
+  }
+</script>
