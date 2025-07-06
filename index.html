@@ -1067,184 +1067,136 @@ setTimeout(() => {
 </body>
 </html>
 <script>
-  // Get guest name from URL (after ? or after ?name=)
-  function getGuestName() {
-    const query = window.location.search.substring(1);
-    if (!query) return '';
-    // Support both ?name=Guest and ?Guest Name
-    if (query.startsWith('name=')) {
-      return decodeURIComponent(query.replace(/^name=/, '').replace(/\+/g, ' '));
+  // Translations dictionary
+  const translations = {
+    en: {
+      invited: "You're invited",
+      loveLine: "We’ll celebrate",
+      love: "love",
+      joinUs: "and we would love you to be part of it!",
+      days: "Days",
+      hours: "Hours",
+      minutes: "Minutes",
+      seconds: "Seconds",
+      church_location: "3pm Church of Holy Trinity",
+      schedule: "Schedule",
+      ceremony: "Church Ceremony",
+      drinks: "4pm Guest gathering & your first drink",
+      dinner: "Dinner",
+      hungry: "Be sure to come hungry.",
+      dancing: "Don't think about sitting!",
+      location: "Location",
+      exact_location: "Banja Luka, Bosnia and Herzegovina",
+      parking: "Free parking available",
+      rsvp: "Confirm your attendance",
+      confirmBy: "Please confirm your attendance by August 1st.",
+      saveToCalendar: "Save to calendar",
+      date: "September 13th, 2025"
+    },
+    sr: {
+      invited: "Pozivamo",
+      loveLine: "Slavićemo",
+      love: "ljubav",
+      joinUs: "i voljeli bismo da budete dio nje!",
+      days: "Dana",
+      hours: "Sati",
+      minutes: "Minuta",
+      seconds: "Sekundi",
+      church_location: "15:00 Crkva Sv. Trojice",
+      schedule: "Raspored",
+      ceremony: "Crkveno Vjenčanje",
+      drinks: "Skup svatova & vaše prvo piće",
+      dinner: "Večera",
+      hungry: "Obavezno dođite gladni.",
+      dancing: "Zamjerimo ljudima koji sjede!",
+      location: "Lokacija",
+      exact_location: "Banja Luka, Bosnia i Hercegovina",
+      parking: "Slobodan parking je dostupan",
+      rsvp: "Potvrdite svoj dolazak",
+      confirmBy: "Molimo vas da potvrdite svoj dolazak do 1. avgusta.",
+      saveToCalendar: "Sačuvaj u kalendar",
+      date: "13. Septembar 2025"
     }
-    return decodeURIComponent(query.replace(/\+/g, ' '));
+  };
+
+  // Utility to get URL parameters
+  function getUrlParameter(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+    const results = regex.exec(window.location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
   }
 
-      const translations = {
-      en: {
-        invited: "You're invited",
-        loveLine: "We’ll celebrate",
-        love: "love",
-        joinUs: "and we would love you to be part of it!",
-        days: "Days",
-        hours: "Hours",
-        minutes: "Minutes",
-        seconds: "Seconds",
-        church_location: "3pm Church of Holy Trinity",
-        schedule: "Schedule",
-        ceremony: "Church Ceremony",
-        drinks: "4pm Guest gathering & your first drink",
-        dinner: "Dinner",
-        hungry: "Be sure to come hungry.",
-        dancing: "Don't think about sitting!",
-        location: "Location",
-        exact_location: "Banja Luka, Bosnia and Herzegovina",
-        parking: "Free parking available",
-        rsvp: "Confirm your attendance",
-        confirmBy: "Please confirm your attendance by August 1st.",
-        saveToCalendar: "Save to calendar",
-        date: "September 13th, 2025"
-      },
-      sr: {
-        invited: "Pozivamo vas",
-        loveLine: "Slavićemo",
-        love: "ljubav",
-        joinUs: "i voljeli bismo da budete dio nje!",
-        days: "Dana",
-        hours: "Sati",
-        minutes: "Minuta",
-        seconds: "Sekundi",
-        church_location: "15:00 Crkva Sv. Trojice",
-        schedule: "Raspored",
-        ceremony: "Crkveno Vjenčanje",
-        drinks: "Skup svatova & vaše prvo piće",
-        dinner: "Večera",
-        hungry: "Obavezno dođite gladni.",
-        dancing: "Zamjerimo ljudima koji sjede!",
-        location: "Lokacija",
-        exact_location: "Banja Luka, Bosnia i Hercegovina",
-        parking: "Slobodan parking je dostupan",
-        rsvp: "Potvrdite svoj dolazak",
-        confirmBy: "Molimo vas da potvrdite svoj dolazak do 1. avgusta.",
-        saveToCalendar: "Sačuvaj u kalendar",
-        date: "13. Septembar 2025"
-      }
-    };
-
-    function switchLanguage(lang) {
-      document.documentElement.lang = lang;
-      const elements = document.querySelectorAll("[data-i18n]");
-      elements.forEach(el => {
-        el.classList.remove('show');
-        const key = el.getAttribute("data-i18n");
-        setTimeout(() => {
-          el.textContent = translations[lang][key] || el.textContent;
-          el.classList.add('show');
-        }, 200);
-      });
-    }
-
-        function switchLanguage(lang) {
-      document.documentElement.lang = lang;
-      const elements = document.querySelectorAll("[data-i18n]");
-      elements.forEach(el => {
-        el.classList.remove('show');
-        const key = el.getAttribute("data-i18n");
-        setTimeout(() => {
-          el.textContent = translations[lang][key] || el.textContent;
-          el.classList.add('show');
-        }, 200);
-      });
-    }
-
-    window.addEventListener("load", () => {
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        el.classList.add('fade-translate', 'show');
-      });
+  // Language management
+  function switchLanguage(lang) {
+    document.documentElement.lang = lang;
+    document.getElementById("langCurrent").textContent = lang.toUpperCase();
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      el.classList.remove("show");
+      const key = el.getAttribute("data-i18n");
+      setTimeout(() => {
+        el.textContent = translations[lang][key] || el.textContent;
+        el.classList.add("show");
+      }, 200);
     });
+    // Re-insert guest name after language change
+    insertGuestName();
+  }
 
-    const guestName = getGuestName();
-    if (guestName) {
-      // Find the "You're Invited" section and insert guest name and location below
-      const sections = document.querySelectorAll('.section-title');
-      for (const section of sections) {
-        if (section.textContent.trim() === "You're Invited") {
-          // Guest name
-          const nameDiv = document.createElement('div');
-          nameDiv.textContent = guestName;
-          nameDiv.style.fontFamily = "'Dancing Script', cursive";
-          nameDiv.style.fontWeight = "500";
-          nameDiv.style.fontSize = "2em";
-          nameDiv.style.color = "var(--primary-color)";
-          nameDiv.style.marginTop = "0.2em";
-          nameDiv.style.marginBottom = "0.2em";
-          nameDiv.style.textAlign = "center";
-          // Location
-          const locationDiv = document.createElement('div');
-          locationDiv.textContent = "Location: Please";
-          locationDiv.style.fontFamily = "'Montserrat', Arial, sans-serif";
-          locationDiv.style.fontWeight = "500";
-          locationDiv.style.fontSize = "1.3em";
-          locationDiv.style.color = "var(--accent-color)";
-          locationDiv.style.marginBottom = "0.5em";
-          locationDiv.style.textAlign = "center";
-          section.insertAdjacentElement('afterend', locationDiv);
-          section.insertAdjacentElement('afterend', nameDiv);
-          break;
-        }
-      }
-    }
+  // Insert guest name under the invitation heading in both languages
+  function insertGuestName() {
+    const guestName = getUrlParameter('name');
+    // Remove previous name if exists
+    const prev = document.getElementById("guest-name-invite");
+    if (prev) prev.parentNode.removeChild(prev);
 
-    function openLanguagePopup() {
-      const popup = document.getElementById("langPopup");
-      popup.classList.add("show");
-    }
+    if (!guestName) return;
 
-    function closeLanguagePopup(event) {
-      const popup = document.getElementById("langPopup");
-      popup.classList.remove("show");
-    }
-
-    function chooseLanguage(lang) {
-      const popup = document.getElementById("langPopup");
-      popup.classList.remove("show");
-      document.getElementById("langCurrent").textContent = lang.toUpperCase();
-      switchLanguage(lang);
-    }
-
-    function switchLanguage(lang) {
-      document.documentElement.lang = lang;
-      const elements = document.querySelectorAll("[data-i18n]");
-      elements.forEach(el => {
-        el.classList.remove('show');
-        const key = el.getAttribute("data-i18n");
-        setTimeout(() => {
-          el.textContent = translations[lang][key] || el.textContent;
-          el.classList.add('show');
-        }, 200);
-      });
-    }
-
-    window.addEventListener("load", () => {
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        el.classList.add('fade-translate', 'show');
-      });
-    });
-  if (guestName) {
-    // Find the "Pozivamo vas" section and insert guest name below
-    const sections = document.querySelectorAll('.section-title');
-    for (const section of sections) {
-      if (section.textContent.trim() === 'Pozivamo') {
+    // Detect current language and proper section title
+    const lang = document.documentElement.lang || 'sr';
+    const expectedTitle = translations[lang].invited;
+    // Find correct section-title
+    const titles = document.querySelectorAll('.section-title');
+    for (const title of titles) {
+      if (title.getAttribute("data-i18n") === "invited" && title.textContent.trim() === expectedTitle) {
         const nameDiv = document.createElement('div');
+        nameDiv.id = "guest-name-invite";
         nameDiv.textContent = guestName;
         nameDiv.style.fontFamily = "'Tangerine', cursive";
-        nameDiv.style.fontSize = '2em';
+        nameDiv.style.fontSize = '3em';
         nameDiv.style.color = 'var(--primary-color)';
         nameDiv.style.marginTop = '0.2em';
         nameDiv.style.marginBottom = '0.5em';
         nameDiv.style.textAlign = 'center';
-        nameDiv.style.fontSize = '3em';
-        section.insertAdjacentElement('afterend', nameDiv);
+        title.insertAdjacentElement('afterend', nameDiv);
         break;
       }
     }
   }
+
+  // Language popup
+  function openLanguagePopup() {
+    document.getElementById("langPopup").classList.add("show");
+  }
+  function closeLanguagePopup(event) {
+    document.getElementById("langPopup").classList.remove("show");
+  }
+  function chooseLanguage(lang) {
+    document.getElementById("langPopup").classList.remove("show");
+    switchLanguage(lang);
+  }
+
+  // On load: initialize language, translations, guest name
+  window.addEventListener("load", () => {
+    // Get lang parameter or default to 'sr'
+    let lang = getUrlParameter('lang');
+    if (!(lang && translations[lang])) lang = 'sr';
+    switchLanguage(lang);
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      el.classList.add('fade-translate', 'show');
+    });
+
+    insertGuestName();
+  });
 </script>
